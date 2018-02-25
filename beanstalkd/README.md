@@ -74,3 +74,16 @@ $ helm install --name my-release -f values.yaml dtannock-charts/beanstalkd
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
+## Minikube
+
+At this time, [Minikube](https://github.com/kubernetes/minikube) only supports a single node Kubernetes cluster.
+
+If you plan on running more than one replica, you must change the node affinity like the following:
+
+```bash
+$ helm install --name my-release \
+  dtannock-charts/beanstalkd \
+  --set AntiAffinity=soft \
+  --set replicas=2
+```
+
