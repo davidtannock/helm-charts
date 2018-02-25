@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "beanstalkd.fullname" . }}
+  labels:
+    app: {{ template "beanstalkd.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  serviceName: {{ template "beanstalkd.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "beanstalkd.fullname" . }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      release: "{{ .Release.Name }}"
+      heritage: "{{ .Release.Service }}"
+  template:
+    metadata:
+      labels:
+        app: {{ template "beanstalkd.fullname" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      affinity:
+        podAntiAffinity:
+        {{- if eq .Values.AntiAffinity "hard" }}
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "kubernetes.io/hostname"
+            labelSelector:
+              matchLabels:
+                app: {{ template "beanstalkd.fullname" . }}
+                release: {{ .Release.Name | quote }}
+        {{- else if eq .Values.AntiAffinity "soft" }}
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 5
+            podAffinityTerm:
+              topologyKey: "kubernetes.io/hostname"
+              labelSelector:
+                matchLabels:
+                  app: {{ template "beanstalkd.fullname" . }}
+                  release: {{ .Release.Name | quote }}
+        {{- end }}
+      containers:
+      - name: {{ template "beanstalkd.fullname" . }}
+        image: {{ .Values.image }}
+        imagePullPolicy: {{ default "" .Values.imagePullPolicy | quote }}
+        args:
+        - -z {{ .Values.beanstalkd.maxJobSize }}
+        ports:
+        - name: beanstalkd
+          containerPort: 11300
+        livenessProbe:
+          tcpSocket:
+            port: beanstalkd
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: beanstalkd
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        volumeMounts:
+        - name: binlog
+          mountPath: /var/lib/beanstalkd
+      volumes:
+      - name: binlog
+        persistentVolumeCliaim:
+          claimName: {{ template "beanstalkd.fullname" . }}

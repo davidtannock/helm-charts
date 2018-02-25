@@ -1,0 +1,15 @@
+image: dtannock/beanstalkd:1.10
+imagePullPolicy: IfNotPresent
+
+replicaCount: 1
+
+pdbMinAvailable: 1
+
+AntiAffinity: "hard"
+
+beanstalkd:
+  maxJobSize: 65535
+  binlogSize: "20Mi"
+
+service:
+  port: 11300

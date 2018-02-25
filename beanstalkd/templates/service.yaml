@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "beanstalkd.fullname" . }}
+  labels:
+    app: {{ template "beanstalkd.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  clusterIP: None
+  ports:
+  - name: beanstalkd
+    port: {{ .Values.service.port }}
+    targetPort: beanstalkd
+  selector:
+    app: {{ template "beanstalkd.fullname" . }}
