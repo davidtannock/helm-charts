@@ -50,13 +50,13 @@ The command removes all the Kubernetes components associated with the chart and 
 
 The following tables lists the configurable parameters of the Beanstalkd chart and their default values.
 
-|      Parameter            |                  Description                   |           Default          |
-|---------------------------|------------------------------------------------|----------------------------|
-| `image`                   | The image to pull and run                      | `dtannock/beanstalkd:1.10` |
-| `imagePullPolicy`         | Image pull policy                              | `IfNotPresent`             |
-| `beanstalkd`.`maxJobSize` | The maximum size of a job in bytes             | `65535`                    |
-| `beanstalkd`.`binlogSize` | The size of the binary log volume              | `20Mi`                     |
-| `service`.`port`          | The port the headless service should listen on | `11300`                    |
+|      Parameter          |                  Description                   |           Default          |
+|-------------------------|------------------------------------------------|----------------------------|
+| `image`                 | The image to pull and run                      | `dtannock/beanstalkd:1.10` |
+| `imagePullPolicy`       | Image pull policy                              | `IfNotPresent`             |
+| `beanstalkd.maxJobSize` | The maximum size of a job in bytes             | `65535`                    |
+| `beanstalkd.binlogSize` | The size of the binary log volume              | `20Mi`                     |
+| `service.port`          | The port the headless service should listen on | `11300`                    |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
