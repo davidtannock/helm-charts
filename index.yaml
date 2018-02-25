@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  beanstalkd:
+  - appVersion: "1.10"
+    created: 2018-02-25T17:15:16.109686023+10:00
+    description: Beanstalk is a simple, fast work queue.
+    digest: 478e460b1180b67be437dc59a8fa828775e4712c934caf2b63bbefee7c307b89
+    engine: gotpl
+    home: http://kr.github.io/beanstalkd/
+    keywords:
+    - beanstalkd
+    - queue
+    maintainers:
+    - name: David Tannock
+    name: beanstalkd
+    sources:
+    - https://github.com/davidtannock/docker-beanstalkd
+    urls:
+    - beanstalkd-1.0.0.tgz
+    version: 1.0.0
+generated: 2018-02-25T17:15:16.109278116+10:00
