@@ -7,6 +7,7 @@ Influenced by the official [Memcached](https://github.com/kubernetes/charts/tree
 ## TL;DR;
 
 ```bash
+$ helm repo add dtannock-charts https://davidtannock.github.io/helm-charts/
 $ helm install dtannock-charts/beanstalkd
 ```
 ## Introduction
@@ -18,6 +19,12 @@ The Beanstalkd binary log (for fault tolerance) is enabled and bound to a persis
 A [StatefulSet](https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/) is used to support multiple Beanstalkd instances. DNS is the recommended method of service discovery.
 
 ## Installing the Chart
+
+To add the Helm repository with the name `dtannock-charts`:
+
+```bash
+$ helm repo add dtannock-charts https://davidtannock.github.io/helm-charts/
+```
 
 To install the chart with the release name `my-release`:
 
