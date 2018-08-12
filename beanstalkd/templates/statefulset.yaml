@@ -23,6 +23,12 @@ spec:
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
+      {{- if .Values.metrics.enabled }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: /metrics
+        prometheus.io/port: '{{ .Values.metrics.port }}'
+      {{- end }}
     spec:
       affinity:
         podAntiAffinity:
@@ -67,6 +73,17 @@ spec:
         volumeMounts:
         - name: binlog
           mountPath: /var/lib/beanstalkd
+      {{- if .Values.metrics.enabled }}
+      - name: {{ template "beanstalkd.fullname" . }}-metrics
+        image: {{ .Values.metrics.image }}
+        imagePullPolicy: {{ .Values.metrics.imagePullPolicy }}
+        args:
+        - --web.listen-address=:11301
+        - --beanstalkd.address={{ template "beanstalkd.fullname" . }}:{{ .Values.service.port }}
+        ports:
+        - name: metrics
+          containerPort: 11301
+      {{- end }}
       volumes:
       - name: binlog
         persistentVolumeCliaim:

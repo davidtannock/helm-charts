@@ -3,8 +3,8 @@ Beanstalkd can be accessed via port 11300 on the following DNS name from within 
 
 If you'd like to test your instance, forward the port locally:
 
-  export POD_NAME=$(kubectl get pods -n {{ .Release.Namespace }} -l "app={{ template "beanstalkd.fullname" . }}" -o jsonpath="{.items[0].metadata.name}")
-  kubectl port-forward $POD_NAME 11300
+  $ export POD_NAME=$(kubectl get pods -n {{ .Release.Namespace }} -l "app={{ template "beanstalkd.fullname" . }}" -o jsonpath="{.items[0].metadata.name}")
+  $ kubectl port-forward $POD_NAME 11300
 
 In another tab, attempt to get stats:
 
@@ -27,3 +27,12 @@ You should see (something like):
   cmd-reserve: 0
   cmd-reserve-with-timeout: 0
   (truncated here)
+
+If you enabled the metrics server on port 11301, you can test it by forwarding the port locally:
+
+  $ export POD_NAME=$(kubectl get pods -n {{ .Release.Namespace }} -l "app={{ template "beanstalkd.fullname" . }}" -o jsonpath="{.items[0].metadata.name}")
+  $ kubectl port-forward $POD_NAME 11301
+
+In another tab, attempt to get metrics:
+
+  $ curl http://localhost:11301/metrics

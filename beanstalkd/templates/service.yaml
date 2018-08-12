@@ -15,3 +15,23 @@ spec:
     targetPort: beanstalkd
   selector:
     app: {{ template "beanstalkd.fullname" . }}
+{{- if .Values.metrics.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "beanstalkd.fullname" . }}-metrics
+  labels:
+    app: {{ template "beanstalkd.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  clusterIP: None
+  ports:
+  - name: metrics
+    port: {{ .Values.metrics.port }}
+    targetPort: metrics
+  selector:
+    app: {{ template "beanstalkd.fullname" . }}
+{{- end }}

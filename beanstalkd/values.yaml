@@ -13,3 +13,9 @@ beanstalkd:
 
 service:
   port: 11300
+
+metrics:
+  enabled: false
+  image: dtannock/beanstalkd-exporter:0.1.1
+  imagePullPolicy: IfNotPresent
+  port: 11301
