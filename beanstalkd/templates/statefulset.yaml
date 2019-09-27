@@ -86,5 +86,5 @@ spec:
       {{- end }}
       volumes:
       - name: binlog
-        persistentVolumeCliaim:
+        persistentVolumeClaim:
           claimName: {{ template "beanstalkd.fullname" . }}
