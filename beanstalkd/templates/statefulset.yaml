@@ -55,6 +55,9 @@ spec:
         imagePullPolicy: {{ default "" .Values.imagePullPolicy | quote }}
         args:
         - -z {{ .Values.beanstalkd.maxJobSize }}
+{{- with .Values.beanstalkd.extraArgs }}
+{{ . | toYaml | nindent 8 }}
+{{- end }}
         ports:
         - name: beanstalkd
           containerPort: 11300

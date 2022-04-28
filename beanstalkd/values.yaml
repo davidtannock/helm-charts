@@ -10,6 +10,7 @@ AntiAffinity: "hard"
 beanstalkd:
   maxJobSize: 65535
   binlogSize: "20Mi"
+  extraArgs: []
 
 service:
   port: 11300
